@@ -24,6 +24,7 @@ namespace Client.ScreenShare.Capture
 
     internal class ScreenCapture : IDisposable
     {
+        // chuan bi _context , _duplication
         private ID3D11Device? _device;
         private ID3D11DeviceContext? _context;
         private IDXGIOutputDuplication? _duplication;
