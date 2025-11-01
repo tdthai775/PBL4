@@ -1,0 +1,122 @@
+﻿<Window x:Class="Client.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Client" Width="755" Height="500"
+        Background="{DynamicResource BrushBackgroundDark}"
+        Foreground="{DynamicResource BrushGrayLight}"
+        FontFamily="Segoe UI" FontSize="13">
+    <Window.Resources>
+        <SolidColorBrush x:Key="BrushBackgroundDark" Color="#111827" />
+        <SolidColorBrush x:Key="BrushBackgroundDark2" Color="#1F2937" />
+        <SolidColorBrush x:Key="BrushBackgroundDark3" Color="#374151" />
+        <SolidColorBrush x:Key="BrushGrayLight" Color="#E5E7EB" />
+        <SolidColorBrush x:Key="BrushGrayMedium" Color="#9CA3AF" />
+        <SolidColorBrush x:Key="BrushAccentBlue" Color="#2563EB" />
+        <SolidColorBrush x:Key="BrushAccentGreen" Color="#22C55E" />
+        <SolidColorBrush x:Key="BrushAccentRed" Color="#DC2626" />
+        <SolidColorBrush x:Key="BrushAccentYellow" Color="#EAB308" />
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0 0 0 10">
+            <TextBlock Text="Client Manager - Client-001"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="{StaticResource BrushAccentBlue}"
+                       DockPanel.Dock="Left" VerticalAlignment="Center"/>
+            <Button Background="Transparent" BorderThickness="0" DockPanel.Dock="Right" Cursor="Hand">
+                <materialDesign:PackIcon Kind="Cog" Width="20" Height="20"
+                                         Foreground="{StaticResource BrushGrayLight}"/>
+            </Button>
+        </DockPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                <Border Padding="15" Margin="0 0 0 10" CornerRadius="8"
+                        Background="{StaticResource BrushBackgroundDark2}">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="8" Opacity="0.5" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 15">
+                            <materialDesign:PackIcon Kind="LanConnect" Width="20" Height="20"
+                                                     Foreground="{StaticResource BrushAccentBlue}"
+                                                     Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Kết Nối Server" FontSize="16" FontWeight="SemiBold"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                            <TextBlock Text="Trạng thái: " />
+                            <Ellipse x:Name="StatusEllipse" Width="10" Height="10" Fill="{StaticResource BrushAccentRed}"
+                                     Margin="0,4,5,0"/>
+                            <TextBlock x:Name="StatusText" Text="Đã ngắt kết nối" Foreground="{StaticResource BrushAccentRed}" FontWeight="SemiBold"/>
+                        </StackPanel>
+
+                        <TextBox x:Name="ServerIpTextBox" Text="127.0.0.1" Margin="0 0 0 5" materialDesign:HintAssist.Hint="Server IP"/>
+                        <TextBox x:Name="PortTextBox" Text="8080" Margin="0 0 0 10" materialDesign:HintAssist.Hint="Port"/>
+
+                        <Button x:Name="ConnectDisconnectButton"
+                                Click="ConnectDisconnectButton_Click"
+                                Background="{StaticResource BrushAccentBlue}" Foreground="White"
+                                Padding="8,5" BorderThickness="0" materialDesign:ButtonAssist.CornerRadius="4" Cursor="Hand">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon x:Name="ConnectIcon" Kind="LanConnect" Width="16" Height="16" Foreground="White"/>
+                                <TextBlock x:Name="ConnectText" Text="Kết nối" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <Border Padding="15" CornerRadius="8"
+                        Background="{StaticResource BrushBackgroundDark2}">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="8" Opacity="0.5" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                            <materialDesign:PackIcon Kind="DesktopTower" Width="20" Height="20"
+                                                     Foreground="{StaticResource BrushAccentBlue}"
+                                                     Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Thông Tin Hệ Thống" FontSize="16" FontWeight="SemiBold"/>
+                        </StackPanel>
+                        <TextBlock Margin="0 0 0 2">
+                            <Run Text="CPU: "/>
+                            <Run x:Name="CpuUsageRun" Text="0.0%" Foreground="{StaticResource BrushAccentGreen}"/>
+                        </TextBlock>
+                        <ProgressBar x:Name="CpuProgressBar" Value="0" Height="8" Margin="0 0 0 8"/>
+                        <TextBlock Margin="0 0 0 2">
+                            <Run Text="RAM: "/>
+                            <Run x:Name="RamUsageRun" Text="0.0%" Foreground="{StaticResource BrushAccentBlue}"/>
+                        </TextBlock>
+                        <ProgressBar x:Name="RamProgressBar" Value="0" Height="8" Margin="0 0 0 8"/>
+                        <TextBlock Margin="0 0 0 2">
+                            <Run Text="DISK: "/>
+                            <Run x:Name="DiskUsageRun" Text="0.0%" Foreground="{StaticResource BrushAccentYellow}"/>
+                        </TextBlock>
+                        <ProgressBar x:Name="DiskProgressBar" Value="0" Height="8" Margin="0 0 0 8"/>
+                        <TextBlock x:Name="IpAddressText" Text="IP Address: N/A" Foreground="{StaticResource BrushGrayMedium}" Margin="0 10 0 2"/>
+                        <TextBlock x:Name="OsText" Text="OS: N/A" Foreground="{StaticResource BrushGrayMedium}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <Grid Grid.Column="1">
+                <GroupBox Header="Trò Chuyện Với Server">
+                    <Grid>
+                        <TextBlock Text="Tính năng chat sẽ được phát triển sau..." VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource BrushGrayMedium}"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
