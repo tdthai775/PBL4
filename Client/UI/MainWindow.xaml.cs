@@ -61,7 +61,6 @@ namespace Client.UI
             }
         }
 
-        // FIXED: Đổi tham số từ RemoteAction sang ActionType
         private void OnActionReceived(object? sender, ActionType actionType)
         {
             Console.WriteLine($"[CLIENT-UI] Received action: {actionType}");

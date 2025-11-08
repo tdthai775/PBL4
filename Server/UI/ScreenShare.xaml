@@ -15,28 +15,53 @@
 
     <Grid>
         <!-- Màn hình stream -->
-        <Image x:Name="StreamImage" Stretch="Uniform" Margin="5"/>
+        <Image x:Name="StreamImage" 
+               Stretch="Uniform" 
+               Margin="5"
+               Cursor="Cross"/>
 
+        <!-- FPS Counter - Góc trên phải -->
         <Border HorizontalAlignment="Right" VerticalAlignment="Top" 
-        Margin="20,20,20,0" 
-        Background="#CC000000" 
-        Padding="15,10" 
-        CornerRadius="8">
+                Margin="20,20,20,0" 
+                Background="#CC000000" 
+                Padding="15,10" 
+                CornerRadius="8">
             <StackPanel Orientation="Horizontal">
                 <materialDesign:PackIcon Kind="VideoOutline" 
-                                 Width="16" Height="16" 
-                                 Foreground="#E5E7EB" 
-                                 VerticalAlignment="Center" 
-                                 Margin="0,0,8,0"/>
+                                         Width="16" Height="16" 
+                                         Foreground="#E5E7EB" 
+                                         VerticalAlignment="Center" 
+                                         Margin="0,0,8,0"/>
                 <TextBlock Text="FPS: " 
-                   FontSize="13" 
-                   Foreground="#E5E7EB" 
-                   FontWeight="SemiBold"/>
+                           FontSize="13" 
+                           Foreground="#E5E7EB" 
+                           FontWeight="SemiBold"/>
                 <TextBlock x:Name="FpsText" 
-                   Text="0" 
-                   FontSize="13" 
-                   Foreground="#22C55E" 
-                   FontWeight="Bold"/>
+                           Text="0" 
+                           FontSize="13" 
+                           Foreground="#22C55E" 
+                           FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Control Status - Góc trên trái -->
+        <Border x:Name="ControlStatusBorder"
+                HorizontalAlignment="Left" VerticalAlignment="Top" 
+                Margin="20,20,0,0" 
+                Background="#CC000000" 
+                Padding="15,10" 
+                CornerRadius="8"
+                Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="GestureTap" 
+                                         Width="16" Height="16" 
+                                         Foreground="#22C55E" 
+                                         VerticalAlignment="Center" 
+                                         Margin="0,0,8,0"/>
+                <TextBlock Text="Đang điều khiển" 
+                           FontSize="13" 
+                           Foreground="#22C55E" 
+                           FontWeight="SemiBold"/>
             </StackPanel>
         </Border>
 
@@ -47,6 +72,7 @@
                     Margin="0,20,0,0">
 
             <Button x:Name="ControlButton"
+                    Click="ControlButton_Click"
                     Padding="12,6"
                     Margin="0,0,10,0"
                     Cursor="Hand"
@@ -54,8 +80,14 @@
                     Foreground="White"
                     BorderThickness="0">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="GestureTap" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <TextBlock Text="Điều khiển" FontSize="14" FontWeight="SemiBold"/>
+                    <materialDesign:PackIcon x:Name="ControlIcon" 
+                                             Kind="GestureTap" 
+                                             VerticalAlignment="Center" 
+                                             Margin="0,0,8,0"/>
+                    <TextBlock x:Name="ControlText" 
+                               Text="Bật điều khiển" 
+                               FontSize="14" 
+                               FontWeight="SemiBold"/>
                 </StackPanel>
             </Button>
 
@@ -67,8 +99,12 @@
                     BorderThickness="0"
                     Click="BackButton_Click">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="ArrowLeftCircleOutline" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <TextBlock Text="Quay lại" FontSize="14" FontWeight="SemiBold"/>
+                    <materialDesign:PackIcon Kind="ArrowLeftCircleOutline" 
+                                             VerticalAlignment="Center" 
+                                             Margin="0,0,8,0"/>
+                    <TextBlock Text="Quay lại" 
+                               FontSize="14" 
+                               FontWeight="SemiBold"/>
                 </StackPanel>
             </Button>
         </StackPanel>

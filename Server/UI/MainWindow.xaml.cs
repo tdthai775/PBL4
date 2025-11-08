@@ -114,7 +114,7 @@ namespace Server.UI
                     await Task.Delay(500);
 
                     Console.WriteLine($"[SERVER] Opening stream window...");
-                    var streamWindow = new ScreenShare(_screenReceiverPipeline, client.ClientId);
+                    var streamWindow = new ScreenShare(_screenReceiverPipeline, client.ClientId, _serverManager);
 
                     streamWindow.Closed += async (s, args) =>
                     {

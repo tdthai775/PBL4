@@ -4,22 +4,54 @@ namespace Server.Models
 {
     public enum ActionType
     {
-        // Giai đoạn 2: Lệnh hệ thống
+        // System commands
         Shutdown,
         Restart,
 
-        // Giai đoạn 3: Lệnh điều khiển stream
+        // Stream control
         StartStream,
         StopStream,
 
-        // Placeholder cho các giai đoạn sau
-        RequestProcessList
+        // Remote control - Mouse
+        MouseMove,
+        MouseLeftDown,
+        MouseLeftUp,
+        MouseRightDown,
+        MouseRightUp,
+        MouseMiddleDown,
+        MouseMiddleUp,
+        MouseScroll,
+
+        // Remote control - Keyboard
+        KeyDown,
+        KeyUp,
+
+        // Process management (placeholder)
+        RequestProcessList,
+        KillProcess,
+        ResponseProcessList
     }
 
     [Serializable]
     public class RemoteAction
     {
         public ActionType Type { get; set; }
-        // Các thuộc tính khác sẽ được thêm sau
+
+        // Mouse coordinates (for MouseMove)
+        public int? X { get; set; }
+        public int? Y { get; set; }
+
+        // Keyboard key code (for KeyDown/KeyUp)
+        public int? KeyCode { get; set; }
+
+        // Mouse scroll delta (for MouseScroll)
+        public int? ScrollDelta { get; set; }
+
+        // Screen dimensions for coordinate scaling
+        public int? ScreenWidth { get; set; }
+        public int? ScreenHeight { get; set; }
+
+        // Additional data for future use
+        public string? Data { get; set; }
     }
 }

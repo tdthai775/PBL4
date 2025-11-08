@@ -56,6 +56,9 @@ namespace Server.Core
             }
         }
 
+        /// <summary>
+        /// Send command with ActionType only
+        /// </summary>
         public async Task SendCommandToClientAsync(string clientId, ActionType type)
         {
             if (_clients.TryGetValue(clientId, out var session))
@@ -64,6 +67,27 @@ namespace Server.Core
                 var action = new RemoteAction { Type = type };
                 await session.SendActionAsync(action);
                 Console.WriteLine($"[SERVER-MANAGER] ✓ Command sent");
+            }
+            else
+            {
+                Console.WriteLine($"[SERVER-MANAGER] ✗ Client {clientId} not found");
+            }
+        }
+
+        /// <summary>
+        /// Send full RemoteAction (for input control with parameters)
+        /// </summary>
+        public async Task SendCommandToClientAsync(string clientId, RemoteAction action)
+        {
+            if (_clients.TryGetValue(clientId, out var session))
+            {
+                // Only log non-MouseMove to avoid spam
+                if (action.Type != ActionType.MouseMove)
+                {
+                    Console.WriteLine($"[SERVER-MANAGER] → Sending {action.Type} to {clientId}");
+                }
+
+                await session.SendActionAsync(action);
             }
             else
             {

@@ -11,7 +11,6 @@ namespace Client.Network
 {
     internal class TcpCommandChannel : IDisposable
     {
-        // FIXED: Đổi từ RemoteAction sang ActionType
         public event EventHandler<ActionType>? ActionReceived;
 
         private readonly string _serverIp;
@@ -59,11 +58,8 @@ namespace Client.Network
                     if (action != null)
                     {
                         Console.WriteLine($"[CLIENT-TCP] Received action: {action.Type}");
-
-                        // FIXED: Raise event với ActionType thay vì RemoteAction
                         ActionReceived?.Invoke(this, action.Type);
 
-                        // Dispatch cho các action như Shutdown, Restart
                         _dispatcher.Dispatch(action);
                     }
                 }
