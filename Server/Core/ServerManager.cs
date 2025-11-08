@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.Core
 {
-    internal class ServerManager
+    public class ServerManager
     {
         public event EventHandler<(string clientId, string computerName)>? ClientConnected;
         public event EventHandler<string>? ClientDisconnected;
