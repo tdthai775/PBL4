@@ -24,7 +24,7 @@ namespace Client.ScreenShare
         private readonly ImageCodecInfo _jpegCodec;
         private readonly EncoderParameters _encoderParams;
 
-        public ScreenSharePipeline(UdpStreamSender udpSender, int targetWidth = 1600, int targetHeight = 900, int jpegQuality = 70, int targetFps = 30)
+        public ScreenSharePipeline(UdpStreamSender udpSender, int targetWidth = 1920, int targetHeight = 1080, int jpegQuality = 80, int targetFps = 30)
         {
             _udpSender = udpSender;
             _targetWidth = targetWidth;
