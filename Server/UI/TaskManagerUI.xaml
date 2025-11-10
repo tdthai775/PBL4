@@ -1,0 +1,90 @@
+﻿<Window x:Class="Server.UI.TaskManagerUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Task Manager" Height="480" Width="640"
+        Background="#111827" Foreground="White"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="BrushAccentRed" Color="#F5222D"/>
+        <SolidColorBrush x:Key="BrushAccentBlue" Color="#2563EB"/>
+        <SolidColorBrush x:Key="BrushTableHeader" Color="#1F2937"/>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Tiêu đề + nút -->
+        <DockPanel Margin="0 0 0 10">
+            <TextBlock Text="Processing"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="{StaticResource BrushAccentBlue}"
+                       DockPanel.Dock="Left"
+                       VerticalAlignment="Center"/>
+
+            <Button x:Name="btnKillProcess"
+                    Content="Kill Process"
+                    Width="110" Height="32"
+                    Background="{StaticResource BrushAccentRed}"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    BorderThickness="0"
+                    HorizontalAlignment="Right"
+                    Cursor="Hand"
+                    Click="btnKillProcess_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6"
+                                Padding="8,4"
+                                Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </DockPanel>
+
+        <!-- Bảng DataGrid -->
+        <DataGrid x:Name="dgvProcesses"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="Column"
+                  RowHeaderWidth="0"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  GridLinesVisibility="None"
+                  Background="#1F2937"
+                  Foreground="White"
+                  BorderThickness="0"
+                  SelectionMode="Single"
+                  AlternatingRowBackground="#222b3a"
+                  RowBackground="#1F2937"
+                  EnableRowVirtualization="False"
+                  EnableColumnVirtualization="False"
+                  FontSize="14" SelectionChanged="dgvProcesses_SelectionChanged">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{StaticResource BrushTableHeader}"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="10,6"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Process ID" Binding="{Binding Id}" Width="120"/>
+                <DataGridTextColumn Header="Tên tiến trình" Binding="{Binding ProcessName}" Width="200"/>
+                <DataGridTextColumn Header="Ram" Binding="{Binding Memory}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

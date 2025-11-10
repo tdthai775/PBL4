@@ -14,6 +14,8 @@ namespace Server.Core
 
         private readonly TcpServerListener _tcpListener;
         private readonly ConcurrentDictionary<string, ClientSession> _clients = new ConcurrentDictionary<string, ClientSession>();
+        public TcpServerListener GetTcpServerListener() => _tcpListener;
+        public ConcurrentDictionary<string, ClientSession> GetClients() => _clients;
 
         public ServerManager(int port)
         {

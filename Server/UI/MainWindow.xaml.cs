@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Xml.Linq;
 
 namespace Server.UI
 {
@@ -131,6 +132,31 @@ namespace Server.UI
                 {
                     Console.WriteLine($"[SERVER] ✗ Error: {ex.Message}");
                     MessageBox.Show($"Lỗi khi bắt đầu stream: {ex.Message}", "Lỗi");
+                }
+            }
+        }
+
+        private async void TaskManagerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as FrameworkElement)?.DataContext is ClientViewModel client)
+            {
+                if (_serverManager == null)
+                {
+                    MessageBox.Show("Server chưa được khởi động.", "Lỗi");
+                    return;
+                }
+                try
+                {
+                    Console.WriteLine($"[SERVER] → Sending RequestProcessList to {client.ClientId}");
+                    await _serverManager.SendCommandToClientAsync(client.ClientId, ActionType.RequestProcessList);
+                    var found = _serverManager.GetClients().Values.FirstOrDefault(c => c.ClientId == client.ClientId);
+                    var taskManagerWindow = new TaskManagerUI(_serverManager.GetTcpServerListener().GetListener(), found.GetTcpClient());
+                    taskManagerWindow.Show();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[SERVER] ✗ Error: {ex.Message}");
+                    MessageBox.Show($"Lỗi khi yêu cầu danh sách tiến trình: {ex.Message}", "Lỗi");
                 }
             }
         }
