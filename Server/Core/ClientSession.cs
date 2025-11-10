@@ -10,7 +10,7 @@ using Server.Models;
 
 namespace Server.Core
 {
-    internal class ClientSession : IDisposable
+    public class ClientSession : IDisposable
     {
         public string ClientId { get; }
         public string ComputerName { get; private set; } = "Unknown";

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Server.Network
 {
-    internal class TcpServerListener
+    public class TcpServerListener
     {
         public event EventHandler<TcpClient>? ClientConnected;
         private readonly TcpListener _listener;
