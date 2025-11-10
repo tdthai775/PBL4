@@ -1,7 +1,7 @@
 # PBL4
 
 **Hệ thống Quản lý Server — Client** (Windows/WPF, .NET 8)  
-Ứng dụng gồm hai project tách biệt: **Server** và **Client**. Mục tiêu: quản lý danh sách client, gửi lệnh cơ bản, stream màn hình (screen share), remote control, hiển thị Task Manager và chat giữa Server — Client.
+Ứng dụng gồm hai project tách biệt: **Server** và **Client**.
 
 ---
 
@@ -20,7 +20,7 @@
   - UDP port mặc định: `9999`.
 - **Remote control (chuột / bàn phím)**  
   - Hỗ trợ gửi các thao tác chuột/bàn phím (MouseMove, MouseClick, KeyDown/KeyUp) thông qua `RemoteAction`.
-- **Task Manager **  
+- **Task Manager** 
   - Server có thể yêu cầu danh sách tiến trình (process list) từ client (RequestProcessList).  
   - Client trả về ResponseProcessList (danh sách process với PID, tên, tài nguyên cơ bản).  
   - Trên UI server hiển thị Task Manager cho từng client; admin có thể chọn tiến trình và gửi lệnh kill (KillProcess) tới client.  
