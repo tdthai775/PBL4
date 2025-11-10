@@ -13,6 +13,8 @@ namespace Server.Network
         public event EventHandler<TcpClient>? ClientConnected;
         private readonly TcpListener _listener;
         private CancellationTokenSource? _cts;
+        public TcpListener GetListener() => _listener;
+
 
         public TcpServerListener(int port)
         {
