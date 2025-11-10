@@ -16,6 +16,7 @@ namespace Server.Core
         public string ComputerName { get; private set; } = "Unknown";
         private readonly TcpClient _tcpClient;
         private readonly NetworkStream _stream;
+        public TcpClient GetTcpClient() => _tcpClient;
 
         public ClientSession(TcpClient tcpClient)
         {

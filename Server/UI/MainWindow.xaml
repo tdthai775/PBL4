@@ -20,6 +20,7 @@
         <SolidColorBrush x:Key="BrushAccentGreen"     Color="#22C55E"/>
         <SolidColorBrush x:Key="BrushAccentRed"       Color="#DC2626"/>
         <SolidColorBrush x:Key="BrushAccentYellow"    Color="#EAB308"/>
+        <SolidColorBrush x:Key="BrushAccentPurple"    Color="#8D97E3"/>
     </Window.Resources>
 
     <Grid Margin="10">
@@ -113,6 +114,14 @@
                                             <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center"/>
 
                                             <TextBlock Text="{Binding IpAddress, StringFormat=' - {0}'}" Foreground="{StaticResource BrushGrayMedium}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                            <Button Padding="8,4" Margin="20,0,10,0" Cursor="Hand"
+                                                Click="TaskManagerButton_Click"
+                                                Background="{StaticResource BrushAccentPurple}"  Foreground="White" BorderThickness="0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="DesktopClassic" Margin="5,0,10,0"/>
+                                                    <TextBlock Text="Tasks Manager"/>
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal">

@@ -20,6 +20,8 @@ namespace Client.Network
         private CancellationTokenSource? _cts;
 
         public bool IsConnected => _tcpClient?.Connected ?? false;
+        public TcpClient GetTcpClient() => _tcpClient!;
+
 
         public TcpCommandChannel(string serverIp, int serverPort)
         {
