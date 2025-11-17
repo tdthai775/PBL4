@@ -12,8 +12,25 @@ namespace Server.Models
         StartStream,
         StopStream,
 
-        // Placeholder cho các giai đoạn sau
-        RequestProcessList
+        // Remote control - Mouse
+        MouseMove,
+        MouseLeftDown,
+        MouseLeftUp,
+        MouseRightDown,
+        MouseRightUp,
+        MouseMiddleDown,
+        MouseMiddleUp,
+        MouseScroll,
+
+        // Remote control - Keyboard
+        KeyDown,
+        KeyUp,
+
+        // Process management (placeholder)
+        RequestProcessList,
+        KillProcess,
+        ResponseProcessList,
+        StopSendingProcessList
     }
 
     [Serializable]

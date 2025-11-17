@@ -17,9 +17,8 @@ namespace Client.Models
         // Placeholder cho các giai đoạn sau
         RequestProcessList,
         KillProcess,
-        MouseMove,
-        MouseClick,
-        ResponseProcessList
+        ResponseProcessList,
+        StopSendingProcessList
     }
 
     [Serializable]

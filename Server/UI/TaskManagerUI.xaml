@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="Task Manager" Height="480" Width="640"
         Background="#111827" Foreground="White"
-        FontFamily="Segoe UI">
+        FontFamily="Segoe UI" Closing="Window_Closing">
 
     <Window.Resources>
         <SolidColorBrush x:Key="BrushAccentRed" Color="#F5222D"/>
@@ -15,13 +15,17 @@
     </Window.Resources>
 
     <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="83*"/>
+            <ColumnDefinition Width="37*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Tiêu đề + nút -->
-        <DockPanel Margin="0 0 0 10">
+        <DockPanel Margin="0 0 0 10" Grid.ColumnSpan="2">
             <TextBlock Text="Processing"
                        FontSize="18" FontWeight="Bold"
                        Foreground="{StaticResource BrushAccentBlue}"
@@ -69,7 +73,7 @@
                   RowBackground="#1F2937"
                   EnableRowVirtualization="False"
                   EnableColumnVirtualization="False"
-                  FontSize="14" SelectionChanged="dgvProcesses_SelectionChanged">
+                  FontSize="14" SelectionChanged="dgvProcesses_SelectionChanged" Grid.ColumnSpan="2">
 
             <DataGrid.Resources>
                 <Style TargetType="DataGridColumnHeader">

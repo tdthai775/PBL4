@@ -25,6 +25,7 @@ namespace Client.UI
         private AppConfig _config;
         private Thread sendProcessesThread;
         private Thread handleKillCommandThread;
+        private bool isSendingProcesses = false;
 
         public MainWindow()
         {
@@ -32,9 +33,7 @@ namespace Client.UI
             _config = AppConfig.Load();
             ServerIpTextBox.Text = _config.ServerIp;
             PortTextBox.Text = _config.ServerPort.ToString();
-            sendProcessesThread = new Thread(SendProcessesLoop);
-            sendProcessesThread.IsBackground = true;
-            
+
 
             Loaded += async (s, e) =>
             {
@@ -180,7 +179,20 @@ namespace Client.UI
                 else if (actionType == ActionType.RequestProcessList)
                 {
                     Console.WriteLine("[CLIENT-UI] Received RequestProcessList action - Not implemented in UI.");
-                    sendProcessesThread.Start();
+                    if (sendProcessesThread == null || !sendProcessesThread.IsAlive)
+                    {
+                        sendProcessesThread = new Thread(SendProcessesLoop);
+                        sendProcessesThread.IsBackground = true;
+                        sendProcessesThread.Start();
+                        isSendingProcesses = true;
+                    }
+                }
+                else if(actionType == ActionType.StopSendingProcessList)
+                {
+                    Console.WriteLine("[CLIENT-UI] Received StopSendingProcessList action.");
+                    sendProcessesThread = null;
+                    sendProcessesThread.IsBackground = false;
+                    isSendingProcesses = false;
                 }
             });
         }
@@ -190,11 +202,11 @@ namespace Client.UI
             var stream = _commandChannel.GetTcpClient().GetStream();
             var reader = new StreamReader(stream, Encoding.UTF8);
 
-            while (true)
+            while (_commandChannel != null && _commandChannel.IsConnected)
             {
                 try
                 {
-                    string? cmd = reader.ReadLine(); // đọc đến ký tự \n
+                    string? cmd = reader.ReadLine();
                     if (string.IsNullOrEmpty(cmd))
                         continue;
 
@@ -209,23 +221,33 @@ namespace Client.UI
                             }
                             catch { }
 
-                            SendProcess(); // gửi lại danh sách mới
+                            SendProcess(); 
                         }
-                        return;
                     }
-
-                    // RequestProcessList
-                    if (cmd == "RequestProcessList")
+                    else if (cmd == "RequestProcessList")
                     {
-                        sendProcessesThread.Start();
-                        return;
+                        if (sendProcessesThread == null || !sendProcessesThread.IsAlive)
+                        {
+                            sendProcessesThread = new Thread(SendProcessesLoop);
+                            sendProcessesThread.IsBackground = true;
+                            isSendingProcesses = true;
+                            sendProcessesThread.Start();
+                        }
+                    }
+                    else if (cmd == "StopSendingProcessList")
+                    {
+                        Console.WriteLine("[CLIENT-UI] Received StopSendingProcessList command.");
+                        isSendingProcesses = false;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Console.WriteLine($"[CLIENT] Error reading command: {ex.Message}");
                     break;
                 }
             }
+
+            Console.WriteLine("[CLIENT] HandleKillCommand thread exited.");
         }
 
         private void SendProcess()
@@ -255,7 +277,7 @@ namespace Client.UI
 
         private void SendProcessesLoop()
         {
-            while (true)
+            while (isSendingProcesses)
             {
                 SendProcess();
                 Thread.Sleep(1000); 

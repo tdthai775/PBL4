@@ -82,8 +82,7 @@ namespace Server.UI
             if (elapsedSeconds >= 1.0)
             {
                 double fps = _fpsFrameCount / elapsedSeconds;
-
-                FpsText.Text = fps.ToString("F1");
+                //FpsText.Text = fps.ToString("F1");
                 _fpsFrameCount = 0;
                 _fpsStopwatch.Restart();
             }
