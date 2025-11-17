@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="Task Manager" Height="480" Width="640"
         Background="#111827" Foreground="White"
-        FontFamily="Segoe UI">
+        FontFamily="Segoe UI" Closing="Window_Closing">
 
     <Window.Resources>
         <SolidColorBrush x:Key="BrushAccentRed" Color="#F5222D"/>

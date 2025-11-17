@@ -25,16 +25,14 @@ namespace Client.UI
         private AppConfig _config;
         private Thread sendProcessesThread;
         private Thread handleKillCommandThread;
+        private bool isSendingProcess = false;
 
         public MainWindow()
         {
             InitializeComponent();
             _config = AppConfig.Load();
             ServerIpTextBox.Text = _config.ServerIp;
-            PortTextBox.Text = _config.ServerPort.ToString();
-            sendProcessesThread = new Thread(SendProcessesLoop);
-            sendProcessesThread.IsBackground = true;
-            
+            PortTextBox.Text = _config.ServerPort.ToString();            
 
             Loaded += async (s, e) =>
             {
@@ -180,7 +178,15 @@ namespace Client.UI
                 else if (actionType == ActionType.RequestProcessList)
                 {
                     Console.WriteLine("[CLIENT-UI] Received RequestProcessList action - Not implemented in UI.");
+                    isSendingProcess = true;
+                    sendProcessesThread = new Thread(SendProcessesLoop);
+                    sendProcessesThread.IsBackground = true;
                     sendProcessesThread.Start();
+                }
+                else if (actionType == ActionType.StopSendingProcessList)
+                {
+                    Console.WriteLine("[CLIENT-UI] Stopping process list sending...");
+                    isSendingProcess = false;
                 }
             });
         }
@@ -190,7 +196,7 @@ namespace Client.UI
             var stream = _commandChannel.GetTcpClient().GetStream();
             var reader = new StreamReader(stream, Encoding.UTF8);
 
-            while (true)
+            while (isSendingProcess)
             {
                 try
                 {
@@ -211,14 +217,6 @@ namespace Client.UI
 
                             SendProcess(); // gửi lại danh sách mới
                         }
-                        return;
-                    }
-
-                    // RequestProcessList
-                    if (cmd == "RequestProcessList")
-                    {
-                        sendProcessesThread.Start();
-                        return;
                     }
                 }
                 catch
@@ -255,7 +253,7 @@ namespace Client.UI
 
         private void SendProcessesLoop()
         {
-            while (true)
+            while (isSendingProcess)
             {
                 SendProcess();
                 Thread.Sleep(1000); 

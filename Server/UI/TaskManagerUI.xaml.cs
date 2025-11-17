@@ -20,6 +20,7 @@ namespace Server.UI
         private ServerManager serverManager;
         Thread loadProcessThread;
         private int selectedProcessId = -1;
+        private bool isRuning = true;
         public TaskManagerUI(TcpListener tcpListener, TcpClient selectedClient)
         {
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace Server.UI
 
         private void LoadProcessesLoop()
         {
-            while (true)
+            while (isRuning)
             {
                 LoadProcesses();
                 Thread.Sleep(1000);
@@ -169,6 +170,11 @@ namespace Server.UI
         private void dgvProcesses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedProcessId = dgvProcesses.SelectedItem is ProcessInfo process ? process.Id : -1;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            isRuning = false;
         }
     }
 }
