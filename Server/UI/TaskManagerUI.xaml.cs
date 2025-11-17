@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography;
@@ -20,6 +21,7 @@ namespace Server.UI
         private ServerManager serverManager;
         Thread loadProcessThread;
         private int selectedProcessId = -1;
+        private bool isRunning = true;
         public TaskManagerUI(TcpListener tcpListener, TcpClient selectedClient)
         {
             InitializeComponent();
@@ -32,7 +34,7 @@ namespace Server.UI
 
         private void LoadProcessesLoop()
         {
-            while (true)
+            while (isRunning)
             {
                 LoadProcesses();
                 Thread.Sleep(1000);
@@ -169,6 +171,12 @@ namespace Server.UI
         private void dgvProcesses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedProcessId = dgvProcesses.SelectedItem is ProcessInfo process ? process.Id : -1;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            isRunning = false;
+            loadProcessThread?.Join();
         }
     }
 }

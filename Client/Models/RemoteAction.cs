@@ -33,7 +33,8 @@ namespace Client.Models
         // Process management (placeholder)
         RequestProcessList,
         KillProcess,
-        ResponseProcessList
+        ResponseProcessList,
+        StopSendingProcessList
     }
 
     [Serializable]

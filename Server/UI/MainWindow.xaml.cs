@@ -115,7 +115,7 @@ namespace Server.UI
                     await Task.Delay(500);
 
                     Console.WriteLine($"[SERVER] Opening stream window...");
-                    var streamWindow = new ScreenShare(_screenReceiverPipeline, client.ClientId, _serverManager);
+                    var streamWindow = new ScreenShare(_screenReceiverPipeline, client.ClientId,_serverManager);
 
                     streamWindow.Closed += async (s, args) =>
                     {
@@ -152,6 +152,12 @@ namespace Server.UI
                     var found = _serverManager.GetClients().Values.FirstOrDefault(c => c.ClientId == client.ClientId);
                     var taskManagerWindow = new TaskManagerUI(_serverManager.GetTcpServerListener().GetListener(), found.GetTcpClient());
                     taskManagerWindow.Show();
+
+                    taskManagerWindow.Closed += async (s, args) =>
+                    {
+                        Console.WriteLine($"[SERVER] Task Manager window closed for {client.ClientId}");
+                        await _serverManager.SendCommandToClientAsync(client.ClientId, ActionType.StopSendingProcessList);
+                    };
                 }
                 catch (Exception ex)
                 {
